@@ -2,6 +2,8 @@
 
 public class TetrisBlock : MonoBehaviour
 {
+    public Vector3 rotationPoint;
+
     private float previousTime;
     private float fallTime = 0.8f;
     private static int width = 10;
@@ -25,6 +27,16 @@ public class TetrisBlock : MonoBehaviour
             if (!ValidMove())
             {
                 transform.position -= new Vector3(1, 0, 0);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            // local position -> global position
+            transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), 90f);
+
+            if (!ValidMove())
+            {
+                transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90f);
             }
         }
 
