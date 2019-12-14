@@ -48,7 +48,8 @@ public class TetrisBlock : MonoBehaviour
             if (!ValidMove())
             {
                 transform.position -= new Vector3(0, -1, 0);
-
+                this.enabled = false;
+                FindObjectOfType<Spawn>().NewTetromino();
             }
 
             previousTime = Time.time;
