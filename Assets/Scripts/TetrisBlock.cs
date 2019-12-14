@@ -8,6 +8,7 @@ public class TetrisBlock : MonoBehaviour
     private float fallTime = 0.8f;
     private static int width = 10;
     private static int height = 20;
+    private static Transform[,] grid = new Transform[width, height];
 
     void Update()
     {
@@ -48,6 +49,7 @@ public class TetrisBlock : MonoBehaviour
             if (!ValidMove())
             {
                 transform.position -= new Vector3(0, -1, 0);
+                AddToGrid();
                 this.enabled = false;
                 FindObjectOfType<Spawn>().NewTetromino();
             }
@@ -56,14 +58,30 @@ public class TetrisBlock : MonoBehaviour
         }
     }
 
+    private void AddToGrid()
+    {
+        foreach (Transform child in transform)
+        {
+            int roundedX = Mathf.RoundToInt(child.transform.position.x);
+            int roundedY = Mathf.RoundToInt(child.transform.position.y);
+
+            grid[roundedX, roundedY] = child;
+        }
+    }
+
     bool ValidMove()
     {
-        foreach (Transform children in transform)
+        foreach (Transform child in transform)
         {
-            int roundedX = Mathf.RoundToInt(children.transform.position.x);
-            int roundedY = Mathf.RoundToInt(children.transform.position.y);
+            int roundedX = Mathf.RoundToInt(child.transform.position.x);
+            int roundedY = Mathf.RoundToInt(child.transform.position.y);
 
             if (roundedX < 0 || roundedX >= width || roundedY < 0 || roundedY >= height)
+            {
+                return false;
+            }
+
+            if (grid[roundedX, roundedY] != null)
             {
                 return false;
             }
