@@ -9,11 +9,6 @@ public class Spawn : MonoBehaviour
         NewTetromino();
     }
 
-    void Update()
-    {
-
-    }
-
     public void NewTetromino()
     {
         Instantiate(tetrominoes[Random.Range(0, tetrominoes.Length)], transform.position, Quaternion.identity);
